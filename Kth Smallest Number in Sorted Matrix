@@ -1,0 +1,33 @@
+import heapq
+
+class Solution:
+    """
+    @param: matrix: a matrix of integers
+    @param: k: An integer
+    @return: the kth smallest number in the matrix
+    """
+    
+    
+
+    def kthSmallest(self, matrix, k):
+        # write your code here      # Use heap for set max/min
+        n = len(matrix);
+        m = len(matrix[0]);
+        
+        heap = [(matrix[0][0], 0, 0)];     # heap struct init(result, coordinate)
+        
+        
+        flag = [[0]*m for _ in range(n)];                   # flag matrix to mark whether it's swept
+        flag[0][0] = 1;
+        
+        while k > 0:
+            re, i, j = heapq.heappop(heap);
+            if i+1 < n and flag[i+1][j] == 0:         # probe down
+                heapq.heappush(heap, (matrix[i+1][j], i+1, j));
+                flag[i+1][j] = 1;
+            if j+1 < m and flag[i][j+1] == 0:         # probe right
+                heapq.heappush(heap, (matrix[i][j+1], i, j+1));
+                flag[i][j+1] = 1;
+            k -= 1;
+            
+        return re;
