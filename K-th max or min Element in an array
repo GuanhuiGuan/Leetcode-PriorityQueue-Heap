@@ -1,0 +1,43 @@
+________________kth largest element_______________
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        heap = [];
+        sel = 0;
+        
+        import heapq as hq
+        for item in nums:
+            hq.heappush(heap, -item);   # for python it only has minheap, thus for maxheap we use the negative
+            
+        for i in range(k):
+            sel = hq.heappop(heap);
+            
+        return -sel;
+        
+______________________kth smallest element____________
+import heapq as hq
+class Solution:
+    """
+    @param: k: An integer
+    @param: nums: An integer array
+    @return: kth smallest element
+    """
+    
+    def kthSmallest(self, k, nums):
+        # write your code here
+        # when it comes to set for max/min/selection, use heap
+        heap = [];
+        out = [];
+        for i in range(len(nums)):
+            hq.heappush(heap, nums[i]);
+            
+        for i in range(k):
+            out.append(hq.heappop(heap));   # with a list it can output the 1st-kth smallest elements
+            
+        return out[-1];
+        
+            
