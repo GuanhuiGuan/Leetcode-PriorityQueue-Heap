@@ -1,0 +1,48 @@
+class Solution:
+    """
+    @param: matrix: a matrix of integers
+    @param: k: An integer
+    @return: the kth smallest number in the matrix
+    """
+    
+    # Solution 1: Heap for all elements in the matrix_______________
+    # It works for both sorted and unsorted matrices
+    
+    def kthSmallest(self, matrix, k):
+        import heapq as hq
+        # write your code here      # Use heap for set max/min
+        m = len(matrix);
+        n = len(matrix[0]);
+        heap = [];
+        re = 0;
+        
+        for i in range(m):
+            for j in range(n):
+                hq.heappush(heap, matrix[i][j]);
+        
+        for s in range(k):
+            re = hq.heappop(heap);
+            
+        return re;
+        
+    # Solution 2: Heap for the proximity around the minimum_________
+    # Better time complexity, only works for sorted array
+    
+    def kthSmallest(self, matrix, k):
+        import heapq as hq
+        # write your code here      # Use heap for set max/min
+        m = len(matrix);
+        n = len(matrix[0]);
+        flag = [[False]*n for a in range(m)];
+        heap = [(matrix[0][0], 0, 0)];        # Initialize the heap
+        
+        for s in range(k):
+            kmin, i, j = hq.heappop(heap);
+            if i+1 < m and not flag[i+1][j]:    # If not out of bound and not visisted yet(downwards)
+                hq.heappush(heap, (matrix[i+1][j], i+1, j));
+                flag[i+1][j] = True;
+            if j+1 < n and not flag[i][j+1]:    # If not out of bound and not visisted yet(rightwards)
+                hq.heappush(heap, (matrix[i][j+1], i, j+1));
+                flag[i][j+1] = True;    
+            
+        return kmin;
