@@ -1,0 +1,22 @@
+class Solution:
+    
+    """
+    @param: arrays: a list of array
+    @param: k: An integer
+    @return: an integer, K-th largest element in N arrays
+    """
+    def KthInArrays(self, arrays, k):
+        # write your code here
+        import heapq as hq
+        
+        m = len(arrays);
+        heap = [];
+        
+        for i in range(m):
+            for item in arrays[i]:
+                hq.heappush(heap, -item);
+        
+        for s in range(k):
+            kmax = hq.heappop(heap);
+            
+        return -kmax;
