@@ -1,0 +1,30 @@
+class Solution:
+    
+    """
+    @param: A: an integer arrays sorted in ascending order
+    @param: B: an integer arrays sorted in ascending order
+    @param: k: An integer
+    @return: An integer
+    """
+    def kthSmallestSum(self, A, B, k):
+        # write your code here
+        import heapq as hq
+        # they're sorted so I could use the proximity around current min to reduce complexity
+        if not A or not B:
+            return 0;
+        m = len(A); n = len(B);
+        heap = [(A[0] + B[0], 0, 0)];
+        flag = [[False] * n for _ in range(m)]; # m times n corresponds the sum of the m elements and n elements respectively
+        flag[0][0] = True;
+        
+        for _ in range(k):
+            kmin, a, b = hq.heappop(heap);
+            if a + 1 < m and not flag[a + 1][b]:
+                hq.heappush(heap, (A[a + 1] + B[b], a + 1, b));
+                flag[a + 1][b] = True;
+            if b + 1 < n and not flag[a][b + 1]:
+                hq.heappush(heap, (A[a] + B[b + 1], a, b + 1));
+                flag[a][b + 1] = True;
+
+        return kmin;
+            
